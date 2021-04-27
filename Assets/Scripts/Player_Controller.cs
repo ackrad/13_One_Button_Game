@@ -60,15 +60,9 @@ public class Player_Controller : MonoBehaviour
     private void FixedUpdate()
     {
         isGrounded = Physics.CheckSphere(feetpos.position,checkRadius);
-        isJumping =!Physics.CheckSphere(feetpos.position, checkRadius);
     }
 
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        //isGrounded =true;
-        //canDoubleJump = true;
-    }
     private void Jump() //TODO Make better Jump Control Can be an Upgrade
     {
         if(Input.GetKeyDown(KeyCode.Space) && isGrounded && powerUps["Jump"])
@@ -81,10 +75,26 @@ public class Player_Controller : MonoBehaviour
             rb.velocity = Vector3.up * jumpForce;
             isGrounded = false;
             isJumping = true;
+            jumpTimeCounter = jumpTimer;
         }
 
-     
+        if(Input.GetKey(KeyCode.Space) && isJumping == true)
+        {
+            if (jumpTimeCounter > 0)
+            {
+                rb.velocity = Vector3.up * jumpForce;
+                jumpTimeCounter -= Time.deltaTime;
+            }
+            else { isJumping = false; }
 
+        }
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            isJumping = false;
+            canDoubleJump = true;
+        }
+
+        
         else if(Input.GetKeyDown(KeyCode.Space) && powerUps["Double_Jump"] && canDoubleJump )  
         {
             Debug.Log("xd");
