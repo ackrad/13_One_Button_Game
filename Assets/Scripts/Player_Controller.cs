@@ -7,6 +7,7 @@ public class Player_Controller : MonoBehaviour
 {
     [SerializeField] float speed = 10f;
     [SerializeField] float jumpForce = 2f;
+    [SerializeField] Transform startingLocation;
     //[SerializeField] BoxCollider jumpCollider;
     // Start is called before the first frame update
 
@@ -71,7 +72,7 @@ public class Player_Controller : MonoBehaviour
 
     public void AcquirePowerUp(PowerUp powerUp)
     {
-
+        Debug.Log(powerUp.ToString());
 
         powerUps[powerUp.ToString()] = true;
 
@@ -80,7 +81,7 @@ public class Player_Controller : MonoBehaviour
 
     public void StartDeath()
     {
-        Debug.Log("You are dead");
+        transform.position = startingLocation.position;
     }
 
 }

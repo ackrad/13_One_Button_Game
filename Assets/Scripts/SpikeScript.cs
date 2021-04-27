@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class SpikeScript : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Player")
-        {
-            other.GetComponent<Player_Controller>().StartDeath();
+    [SerializeField] Player_Controller player;
 
-        }
+    private void PlayerHit()
+    {
+       
+        
+            player.StartDeath();
+
+        
     }
 }
