@@ -12,8 +12,12 @@ public class Player_Controller : MonoBehaviour
     // Start is called before the first frame update
 
     Rigidbody rb;
-    public bool isGrounded = true;
+    bool isGrounded = true;
+    bool canDoubleJump = true;
 
+
+
+    Vector3 jump = new Vector3(0f, 1f, 0f);
     // Powerups go here and get set
 
     Dictionary<string, bool> powerUps = new Dictionary<string, bool>()
@@ -50,29 +54,31 @@ public class Player_Controller : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         isGrounded =true;
+        canDoubleJump = true;
     }
-    private void Jump()
+    private void Jump() //TODO Make better Jump Control Can be an Upgrade
     {
         if(Input.GetKeyDown(KeyCode.Space) && isGrounded && powerUps["Jump"])
         {
-            Vector3 jump = new Vector3(0f, 1f, 0f);
+            
             rb.AddForce(jump * jumpForce, ForceMode.Impulse);
             isGrounded = false;
         }
+
+        else if(Input.GetKeyDown(KeyCode.Space) && powerUps["Double_Jump"] && canDoubleJump )  
+        {
+            rb.velocity = Vector3.zero;
+
+            rb.AddForce(jump * jumpForce, ForceMode.Impulse);
+            canDoubleJump = false;
+        }
     }
 
-    public void ChangeIsGrounded(bool changeGrounded)
-    {
-
-        isGrounded = changeGrounded;
-
-
-    }
+  
 
 
     public void AcquirePowerUp(PowerUp powerUp)
     {
-        Debug.Log(powerUp.ToString());
 
         powerUps[powerUp.ToString()] = true;
 
@@ -83,5 +89,16 @@ public class Player_Controller : MonoBehaviour
     {
         transform.position = startingLocation.position;
     }
+
+
+
+
+
+
+
+
+
+
+
 
 }
