@@ -52,7 +52,6 @@ public class Player_Controller : MonoBehaviour
 
         transform.position += new Vector3(1f, 0f, 0f) * Time.deltaTime * speed; // constant right movement
 
-
         Jump();
 
     }
@@ -61,7 +60,6 @@ public class Player_Controller : MonoBehaviour
     private void FixedUpdate()
     {
         isGrounded = Physics.CheckSphere(feetpos.position,checkRadius);
-        canDoubleJump = Physics.CheckSphere(feetpos.position, checkRadius);
         isJumping =!Physics.CheckSphere(feetpos.position, checkRadius);
     }
 
@@ -76,27 +74,21 @@ public class Player_Controller : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space) && isGrounded && powerUps["Jump"])
         {
             
-            rb.AddForce(jump * jumpForce, ForceMode.Impulse);
+
+
+            // rb.AddForce(jump * jumpForce, ForceMode.Impulse);
+
+            rb.velocity = Vector3.up * jumpForce;
             isGrounded = false;
             isJumping = true;
         }
 
-     /*   if(Input.GetKey(KeyCode.Space) && isJumping)
-        {
-            if(jumpTimeCounter > 0)
-            {
-
-                rb.AddForce(jump*jumpForce)
-
-            }
-
-        } */
+     
 
         else if(Input.GetKeyDown(KeyCode.Space) && powerUps["Double_Jump"] && canDoubleJump )  
         {
-            rb.velocity = Vector3.zero;
-
-            rb.AddForce(jump * jumpForce, ForceMode.Impulse);
+            Debug.Log("xd");
+            rb.velocity = Vector3.up * jumpForce;
             canDoubleJump = false;
         }
     }
