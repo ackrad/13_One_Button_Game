@@ -20,7 +20,9 @@ public class Player_Controller : MonoBehaviour
     bool isGrounded = true;
     bool canDoubleJump = true;
     bool isJumping = false;
-
+    bool isDoubleJumping = false;
+    bool hasJumped = false;
+    
 
     Vector3 jump = new Vector3(0f, 1f, 0f);
     // Powerups go here and get set
@@ -53,21 +55,67 @@ public class Player_Controller : MonoBehaviour
         transform.position += new Vector3(1f, 0f, 0f) * Time.deltaTime * speed; // constant right movement
 
         Jump();
+        Debug.Log(isGrounded);
 
     }
 
 
-    private void FixedUpdate()
+
+
+
+    public void TouchedGround()
     {
-        isGrounded = Physics.CheckSphere(feetpos.position,checkRadius);
+
+        isGrounded = true;
+        hasJumped = false;
     }
 
 
     private void Jump() //TODO Make better Jump Control Can be an Upgrade
     {
-        if(Input.GetKeyDown(KeyCode.Space) && isGrounded && powerUps["Jump"])
+        BetterJump();
+
+        if (hasJumped)
         {
-            
+            BetterDoubleJump();
+        }
+    }
+
+    private void BetterDoubleJump()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && canDoubleJump && !isGrounded && powerUps["Double_Jump"])
+        {
+           
+
+            rb.velocity = Vector3.up * jumpForce;
+            isDoubleJumping = true;
+            jumpTimeCounter = jumpTimer;
+            canDoubleJump = false;
+        }
+
+        if (Input.GetKey(KeyCode.Space) && isDoubleJumping)
+        {
+            if (jumpTimeCounter > 0)
+            {
+                rb.velocity = Vector3.up * jumpForce;
+                jumpTimeCounter -= Time.deltaTime;
+            }
+            else { isDoubleJumping = false; }
+
+        }
+
+        if (Input.GetKeyUp(KeyCode.Space) && isDoubleJumping)
+        {
+            isDoubleJumping = false;
+
+        }
+    }
+
+    private void BetterJump()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && powerUps["Jump"])
+        {
+
 
 
             // rb.AddForce(jump * jumpForce, ForceMode.Impulse);
@@ -76,9 +124,10 @@ public class Player_Controller : MonoBehaviour
             isGrounded = false;
             isJumping = true;
             jumpTimeCounter = jumpTimer;
+            hasJumped = false;
         }
 
-        if(Input.GetKey(KeyCode.Space) && isJumping == true)
+        if (Input.GetKey(KeyCode.Space) && isJumping == true)
         {
             if (jumpTimeCounter > 0)
             {
@@ -88,22 +137,14 @@ public class Player_Controller : MonoBehaviour
             else { isJumping = false; }
 
         }
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.Space) && !hasJumped)
         {
             isJumping = false;
             canDoubleJump = true;
-        }
-
-        
-        else if(Input.GetKeyDown(KeyCode.Space) && powerUps["Double_Jump"] && canDoubleJump )  
-        {
-            Debug.Log("xd");
-            rb.velocity = Vector3.up * jumpForce;
-            canDoubleJump = false;
+            hasJumped = true;
         }
     }
 
-  
 
 
     public void AcquirePowerUp(PowerUp powerUp)

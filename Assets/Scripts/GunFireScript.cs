@@ -9,11 +9,11 @@ public class GunFireScript : MonoBehaviour
     [SerializeField] Transform firingPos;
     [SerializeField] Transform player;
     [SerializeField] float secondsBetweenShots = 5f;
-    [SerializeField] float firingDistance = 20f;
+   // [SerializeField] float firingDistance = 20f;
 
 
 
-    private bool isFiring = false;
+  //  private bool isFiring = false;
 
     // Start is called before the first frame update
 
