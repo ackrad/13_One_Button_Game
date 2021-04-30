@@ -14,4 +14,6 @@ public class FeetCollisionScript : MonoBehaviour
     {
         playerController.TouchedGround();
     }
+
+ 
 }

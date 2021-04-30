@@ -10,8 +10,9 @@ public class Player_Controller : MonoBehaviour
     [SerializeField] Transform startingLocation;
     [SerializeField] Transform feetpos;
     [SerializeField] float checkRadius;
-    [SerializeField] LayerMask whatIsGrounded;
+    [SerializeField] LayerMask whatIsGround;
     [SerializeField] float jumpTimer = 1f;
+    [SerializeField] GameSystemController gameSystemController;
     private float jumpTimeCounter = 0f;
     //[SerializeField] BoxCollider jumpCollider;
     // Start is called before the first frame update
@@ -22,10 +23,11 @@ public class Player_Controller : MonoBehaviour
     bool isJumping = false;
     bool isDoubleJumping = false;
     bool hasJumped = false;
-    
+    List<string> powerUpsToAcquire = new List<string>();
 
     Vector3 jump = new Vector3(0f, 1f, 0f);
     // Powerups go here and get set
+
 
     Dictionary<string, bool> powerUps = new Dictionary<string, bool>()
         {
@@ -55,20 +57,25 @@ public class Player_Controller : MonoBehaviour
         transform.position += new Vector3(1f, 0f, 0f) * Time.deltaTime * speed; // constant right movement
 
         Jump();
-        Debug.Log(isGrounded);
+
 
     }
 
 
 
+    private void FixedUpdate()
+    {
+
+        isGrounded = Physics.CheckSphere(feetpos.position, checkRadius, whatIsGround);
+    }
 
 
     public void TouchedGround()
     {
-
-        isGrounded = true;
         hasJumped = false;
     }
+
+  
 
 
     private void Jump() //TODO Make better Jump Control Can be an Upgrade
@@ -150,7 +157,9 @@ public class Player_Controller : MonoBehaviour
     public void AcquirePowerUp(PowerUp powerUp)
     {
 
-        powerUps[powerUp.ToString()] = true;
+       // powerUps[powerUp.ToString()] = true; // TODO delete this
+
+        powerUpsToAcquire.Add(powerUp.ToString());
 
     }
  
@@ -158,6 +167,15 @@ public class Player_Controller : MonoBehaviour
     public void StartDeath()
     {
         transform.position = startingLocation.position;
+
+        foreach(string powerUp in powerUpsToAcquire)
+        {
+            powerUps[powerUp] = true;
+
+        }
+
+        powerUpsToAcquire.Clear();
+
     }
 
 
