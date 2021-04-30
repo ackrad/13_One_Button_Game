@@ -11,7 +11,6 @@ public class GameSystemController : MonoBehaviour
     private float pauseTimeCounter =0f;
 
     int collectedStars = 0;
-    private bool isPaused = false;
     private bool isHoldingSpace = false;
 
     public void IncreaseStarAmount()
@@ -25,7 +24,6 @@ public class GameSystemController : MonoBehaviour
     {
 
         pauseCanvas.gameObject.SetActive(true);
-        isPaused = true;
         Time.timeScale = 0f;
 
     }
@@ -35,7 +33,6 @@ public class GameSystemController : MonoBehaviour
     {
 
         pauseCanvas.gameObject.SetActive(false);
-        isPaused = false;
         Time.timeScale = 1f;
 
     }

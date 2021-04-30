@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1344867488}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FiringZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1344867487}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.09, y: 1.119, z: 0}
+  m_LocalPosition: {x: -1.09, y: 1.63, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 132423079215645961}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 1448363905883661542}
   - component: {fileID: 9169458601756184393}
   - component: {fileID: 7847757030197959263}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -134,7 +134,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 132423079215645961}
-  m_Layer: 0
+  - component: {fileID: 3886370924631227242}
+  - component: {fileID: 3886370924631227241}
+  m_Layer: 6
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -158,6 +160,38 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &3886370924631227242
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3504471686282415136}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &3886370924631227241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3504471686282415136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9bd0e3981040f4478e27fbd32be3128, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPreFab: {fileID: 5242569914330173294, guid: fd06439a307bbe54cb84877678f80db2, type: 3}
+  firingPos: {fileID: 1344867488}
+  player: {fileID: 0}
+  secondsBetweenShots: 5
 --- !u!1 &7432345539155904555
 GameObject:
   m_ObjectHideFlags: 0
@@ -170,8 +204,8 @@ GameObject:
   - component: {fileID: 4177044176821901577}
   - component: {fileID: 3354998054294393285}
   - component: {fileID: 8616762628995395871}
-  - component: {fileID: 5457521585401099388}
-  m_Layer: 0
+  - component: {fileID: 71708958}
+  m_Layer: 6
   m_Name: Pipe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5075,8 +5109,8 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7432345539155904555}
   m_Mesh: {fileID: 0}
---- !u!64 &5457521585401099388
-MeshCollider:
+--- !u!65 &71708958
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -5085,7 +5119,6 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
+  serializedVersion: 2
+  m_Size: {x: 2.3705657, y: 2.6796596, z: 2.4785557}
+  m_Center: {x: -0.9746335, y: 1.3398297, z: 0}

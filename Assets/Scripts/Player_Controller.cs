@@ -29,12 +29,13 @@ public class Player_Controller : MonoBehaviour
     // Powerups go here and get set
 
 
-    Dictionary<string, bool> powerUps = new Dictionary<string, bool>()
+    public Dictionary<string, bool> powerUps = new Dictionary<string, bool>()
         {
             { "Jump",false },
             { "Double_Jump", false },
             {"Swim",false },
-            {"DropDown",false }
+            {"DropDown",false },
+        {"Poison_Immunity", false }
 
         };
 
