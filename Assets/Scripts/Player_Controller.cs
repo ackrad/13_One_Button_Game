@@ -70,7 +70,6 @@ public class Player_Controller : MonoBehaviour
 
         DropDownAction();
 
-        Debug.Log(hasDoubleJumped);
     }
 
     private void DropDownAction()
