@@ -26,8 +26,7 @@ public class GameSystemController : MonoBehaviour
     Button[] buttons;
     Button selectedButton;
 
-    float selectTime = 1f;
-    float selectNextTime = 2f;
+    float selectTime = 0.35f;
     float selectTimer = 0f;
 
     bool isHolding = false;
@@ -82,7 +81,7 @@ public class GameSystemController : MonoBehaviour
                     selectedButton.onClick.Invoke() ;
                 }
 
-                else if(selectTimer < selectNextTime)
+                else 
                 {
                     selection =(selection +1) % buttons.Length;
                     buttons[selection].Select();
