@@ -17,12 +17,15 @@ public class Player_Controller : MonoBehaviour
     //[SerializeField] BoxCollider jumpCollider;
     // Start is called before the first frame update
 
+        // TODO Turn bools down here into game states.
     Rigidbody rb;
     bool isGrounded = true;
     bool canDoubleJump = true;
     bool isJumping = false;
     bool isDoubleJumping = false;
     bool hasJumped = false;
+    bool isFalling = false;
+    bool hasDoubleJumped = false;
     List<string> powerUpsToAcquire = new List<string>();
 
     Vector3 jump = new Vector3(0f, 1f, 0f);
@@ -54,15 +57,33 @@ public class Player_Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!isFalling)
+        {
+            transform.position += new Vector3(1f, 0f, 0f) * Time.deltaTime * speed; // constant right movement
+        }
 
-        transform.position += new Vector3(1f, 0f, 0f) * Time.deltaTime * speed; // constant right movement
-
+        else if (isFalling)
+        {
+            transform.position += new Vector3(0f, -1f, 0f) * Time.deltaTime * speed; // constant right movement
+        }
         Jump();
 
+        DropDownAction();
 
+        Debug.Log(hasDoubleJumped);
     }
 
+    private void DropDownAction()
+    {
 
+
+        if (Input.GetKeyDown(KeyCode.Space) && hasDoubleJumped && !isGrounded && powerUps["DropDown"])
+        {
+
+            isFalling = true;
+
+        }
+    }
 
     private void FixedUpdate()
     {
@@ -74,6 +95,8 @@ public class Player_Controller : MonoBehaviour
     public void TouchedGround()
     {
         hasJumped = false;
+        hasDoubleJumped = false;
+        isFalling = false;
     }
 
   
@@ -108,14 +131,16 @@ public class Player_Controller : MonoBehaviour
                 rb.velocity = Vector3.up * jumpForce;
                 jumpTimeCounter -= Time.deltaTime;
             }
-            else { isDoubleJumping = false; }
+            else { isDoubleJumping = false;
+                hasDoubleJumped = true;
+            }
 
         }
 
         if (Input.GetKeyUp(KeyCode.Space) && isDoubleJumping)
         {
             isDoubleJumping = false;
-
+            hasDoubleJumped = true;
         }
     }
 
