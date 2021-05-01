@@ -6,8 +6,13 @@ public class PickupScript : MonoBehaviour
 {
     [SerializeField] float rotateSpeed = 50f;
     [SerializeField] PowerUp powerUpSlot;
-    // Start is called before the first frame update
+    GameSystemController gameSystem;
 
+    // Start is called before the first frame update
+    private void Start()
+    {
+        gameSystem = FindObjectOfType<GameSystemController>();
+    }
 
     private void Update()
     {
@@ -19,7 +24,7 @@ public class PickupScript : MonoBehaviour
         {
 
             other.GetComponent<Player_Controller>().AcquirePowerUp(powerUpSlot);
-
+            gameSystem.IncreaseCollectedPoweruo();
             Destroy(this.gameObject);
             
 

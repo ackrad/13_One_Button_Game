@@ -4,7 +4,14 @@ using UnityEngine;
 
 public class SpikeScript : MonoBehaviour
 {
-    [SerializeField] Player_Controller player;
+    
+    Player_Controller player;
+
+    private void Start()
+    {
+        player = FindObjectOfType<Player_Controller>();
+
+    }
 
     private void PlayerHit()
     {

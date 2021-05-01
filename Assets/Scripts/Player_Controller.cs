@@ -26,7 +26,12 @@ public class Player_Controller : MonoBehaviour
     bool hasJumped = false;
     bool isFalling = false;
     bool hasDoubleJumped = false;
+
+    // GameSystem
+    GameSystemController gameSystem;
+    
     List<string> powerUpsToAcquire = new List<string>();
+
 
     Vector3 jump = new Vector3(0f, 1f, 0f);
     // Powerups go here and get set
@@ -42,21 +47,21 @@ public class Player_Controller : MonoBehaviour
 
         };
 
-    private void OnDrawGizmos()
-    {
-        
-    }
+    
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-
+        gameSystem = FindObjectOfType<GameSystemController>();
         
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (gameSystem.isPaused) return;
+        
+
         if (!isFalling)
         {
             transform.position += new Vector3(1f, 0f, 0f) * Time.deltaTime * speed; // constant right movement
