@@ -21,8 +21,16 @@ public class GameSystemController : MonoBehaviour
 
     int totalCoins;
     int totalPowerups;
+    int selection = 0;
 
+    Button[] buttons;
+    Button selectedButton;
 
+    float selectTime = 1f;
+    float selectNextTime = 2f;
+    float selectTimer = 0f;
+
+    bool isHolding = false;
 
 
     private void Start()
@@ -33,6 +41,12 @@ public class GameSystemController : MonoBehaviour
         coinText.text = (collectedCoins + "/" + totalCoins);
         powerUpText.text = (collectedPowerups + "/" + totalPowerups);
 
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+
+        buttons = pauseCanvas.GetComponentsInChildren<Button>();
+    
     }
 
     private void Update()
@@ -40,6 +54,42 @@ public class GameSystemController : MonoBehaviour
         if (!isPaused)
         {
             CheckPause();
+        }
+
+        else if (isPaused) //TODO  isHolding returns true when pause starts Bug. Gotta fix it later
+        {
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                selectTimer = 0f; 
+                isHolding = true;
+            }
+
+            if (Input.GetKey(KeyCode.Space) && isHolding)
+            {
+
+                selectTimer +=  Time.unscaledDeltaTime;
+
+            }
+
+            if (Input.GetKeyUp(KeyCode.Space) && isHolding)
+            {
+
+                if (selectTimer < selectTime)
+                {
+                    
+
+
+                    selectedButton.onClick.Invoke() ;
+                }
+
+                else if(selectTimer < selectNextTime)
+                {
+                    selection =(selection +1) % buttons.Length;
+                    buttons[selection].Select();
+                    selectedButton = buttons[selection];
+
+                }
+            }
         }
     }
 
@@ -68,6 +118,9 @@ public class GameSystemController : MonoBehaviour
         pauseCanvas.gameObject.SetActive(true);
         Time.timeScale = 0f;
         isPaused = true;
+        buttons[0].Select();
+        selection = 0;
+        selectedButton = buttons[selection];
 
     }
 
