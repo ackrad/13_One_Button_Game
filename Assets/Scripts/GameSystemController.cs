@@ -111,6 +111,7 @@ public class GameSystemController : MonoBehaviour
         UpdateText();
     }
     
+    //TODO Refactor pause so it takes any possible canvas
     public void PauseGame()
     {
 
@@ -174,5 +175,13 @@ public class GameSystemController : MonoBehaviour
     {
 
         Application.Quit();
+    }
+
+
+    public void BringInformativeCanvas(Canvas canvas)
+    {
+        Time.timeScale = 0;
+        
+
     }
 }
