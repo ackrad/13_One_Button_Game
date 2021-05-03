@@ -27,6 +27,19 @@ public class Player_Controller : MonoBehaviour
     bool isFalling = false;
     bool hasDoubleJumped = false;
 
+    private playerState currentState;
+    private enum playerState
+    {
+        idle,
+        isJumping,
+        hasJumped,
+        canDoubleJump,
+        isDoubleJumping,
+        hasDoubleJumped,
+        isFalling
+
+    }
+
     // GameSystem
     GameSystemController gameSystem;
     
@@ -62,7 +75,7 @@ public class Player_Controller : MonoBehaviour
         if (gameSystem.isPaused) return;
         
 
-        if (!isFalling)
+        if (!isFalling   /*currentState != playerState.isFalling*/)
         {
             transform.position += new Vector3(1f, 0f, 0f) * Time.deltaTime * speed; // constant right movement
         }

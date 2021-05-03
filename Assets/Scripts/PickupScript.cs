@@ -6,6 +6,7 @@ public class PickupScript : MonoBehaviour
 {
     [SerializeField] float rotateSpeed = 50f;
     [SerializeField] PowerUp powerUpSlot;
+    [SerializeField] Canvas infoCanvas;
     GameSystemController gameSystem;
 
     // Start is called before the first frame update
@@ -25,6 +26,7 @@ public class PickupScript : MonoBehaviour
 
             other.GetComponent<Player_Controller>().AcquirePowerUp(powerUpSlot);
             gameSystem.IncreaseCollectedPoweruo();
+            gameSystem.BringInformativeCanvas(infoCanvas);
             Destroy(this.gameObject);
             
 

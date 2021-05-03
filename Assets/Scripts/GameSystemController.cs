@@ -11,6 +11,7 @@ public class GameSystemController : MonoBehaviour
     [SerializeField] float pauseTimer = 3f;
     [SerializeField] Text coinText;
     [SerializeField] Text powerUpText;
+    [SerializeField] Canvas hudCanvas;
     
     private float pauseTimeCounter =0f;
 
@@ -30,7 +31,7 @@ public class GameSystemController : MonoBehaviour
     float selectTimer = 0f;
 
     bool isHolding = false;
-
+    private Canvas currentlyActiveCanvas;
 
     private void Start()
     {
@@ -115,12 +116,7 @@ public class GameSystemController : MonoBehaviour
     public void PauseGame()
     {
 
-        pauseCanvas.gameObject.SetActive(true);
-        Time.timeScale = 0f;
-        isPaused = true;
-        buttons[0].Select();
-        selection = 0;
-        selectedButton = buttons[selection];
+        BringInformativeCanvas(pauseCanvas);
 
     }
 
@@ -128,14 +124,30 @@ public class GameSystemController : MonoBehaviour
     public void UnpauseGame()
     {
 
-        pauseCanvas.gameObject.SetActive(false);
+        hudCanvas.gameObject.SetActive(true);
+        currentlyActiveCanvas.gameObject.SetActive(false);
         Time.timeScale = 1f;
         isPaused = false;
     }
 
+    public void BringInformativeCanvas(Canvas canvas)
+    {
+        hudCanvas.gameObject.SetActive(false);
+        canvas.gameObject.SetActive(true);
+        Time.timeScale = 0f;
+        isPaused = true;
+        buttons = canvas.GetComponentsInChildren<Button>();
+        buttons[0].Select();
+        selection = 0;
+        selectedButton = buttons[selection];
+        currentlyActiveCanvas = canvas;
 
 
-   
+    }
+
+
+
+
 
     private void CheckPause()
     {
@@ -178,10 +190,6 @@ public class GameSystemController : MonoBehaviour
     }
 
 
-    public void BringInformativeCanvas(Canvas canvas)
-    {
-        Time.timeScale = 0;
-        
 
-    }
+
 }
