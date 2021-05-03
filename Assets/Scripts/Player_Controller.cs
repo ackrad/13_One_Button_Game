@@ -20,12 +20,12 @@ public class Player_Controller : MonoBehaviour
         // TODO Turn bools down here into game states.
     Rigidbody rb;
     bool isGrounded = true;
-    bool canDoubleJump = true;
-    bool isJumping = false;
-    bool isDoubleJumping = false;
-    bool hasJumped = false;
-    bool isFalling = false;
-    bool hasDoubleJumped = false;
+   // bool canDoubleJump = true;
+   // bool isJumping = false;
+    //bool isDoubleJumping = false;
+   // bool hasJumped = false;
+   // bool isFalling = false;
+    //bool hasDoubleJumped = false;
 
     private playerState currentState;
     private enum playerState
@@ -75,12 +75,12 @@ public class Player_Controller : MonoBehaviour
         if (gameSystem.isPaused) return;
         
 
-        if (!isFalling   /*currentState != playerState.isFalling*/)
+        if (currentState != playerState.isFalling)
         {
             transform.position += new Vector3(1f, 0f, 0f) * Time.deltaTime * speed; // constant right movement
         }
 
-        else if (isFalling)
+        else if (currentState == playerState.isFalling)
         {
             transform.position += new Vector3(0f, -1f, 0f) * Time.deltaTime * speed; // constant right movement
         }
@@ -94,10 +94,10 @@ public class Player_Controller : MonoBehaviour
     {
 
 
-        if (Input.GetKeyDown(KeyCode.Space) && hasDoubleJumped && !isGrounded && powerUps["DropDown"])
+        if (Input.GetKeyDown(KeyCode.Space) && currentState== playerState.hasDoubleJumped && !isGrounded && powerUps["DropDown"])
         {
 
-            isFalling = true;
+            currentState = playerState.isFalling;
 
         }
     }
@@ -111,9 +111,8 @@ public class Player_Controller : MonoBehaviour
 
     public void TouchedGround()
     {
-        hasJumped = false;
-        hasDoubleJumped = false;
-        isFalling = false;
+
+        currentState = playerState.idle;
     }
 
   
@@ -123,7 +122,7 @@ public class Player_Controller : MonoBehaviour
     {
         BetterJump();
 
-        if (hasJumped)
+        if (currentState == playerState.canDoubleJump || currentState == playerState.isDoubleJumping)
         {
             BetterDoubleJump();
         }
@@ -131,33 +130,33 @@ public class Player_Controller : MonoBehaviour
 
     private void BetterDoubleJump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && canDoubleJump && !isGrounded && powerUps["Double_Jump"])
+        Debug.Log("xd");
+        if (Input.GetKeyDown(KeyCode.Space) &&  !isGrounded && powerUps["Double_Jump"])
         {
            
 
             rb.velocity = Vector3.up * jumpForce;
-            isDoubleJumping = true;
+            currentState = playerState.isDoubleJumping;
+            
             jumpTimeCounter = jumpTimer;
-            canDoubleJump = false;
-        }
+                    }
 
-        if (Input.GetKey(KeyCode.Space) && isDoubleJumping)
+        if (Input.GetKey(KeyCode.Space) && currentState == playerState.isDoubleJumping)
         {
             if (jumpTimeCounter > 0)
             {
                 rb.velocity = Vector3.up * jumpForce;
                 jumpTimeCounter -= Time.deltaTime;
             }
-            else { isDoubleJumping = false;
-                hasDoubleJumped = true;
+            else { 
+                currentState = playerState.hasDoubleJumped;
             }
 
         }
 
-        if (Input.GetKeyUp(KeyCode.Space) && isDoubleJumping)
+        if (Input.GetKeyUp(KeyCode.Space) && currentState == playerState.isDoubleJumping)
         {
-            isDoubleJumping = false;
-            hasDoubleJumped = true;
+            currentState = playerState.hasDoubleJumped; 
         }
     }
 
@@ -171,27 +170,25 @@ public class Player_Controller : MonoBehaviour
             // rb.AddForce(jump * jumpForce, ForceMode.Impulse);
 
             rb.velocity = Vector3.up * jumpForce;
-            isGrounded = false;
-            isJumping = true;
+            currentState = playerState.isJumping;
+
             jumpTimeCounter = jumpTimer;
-            hasJumped = false;
+            
         }
 
-        if (Input.GetKey(KeyCode.Space) && isJumping == true)
+        if (Input.GetKey(KeyCode.Space) && currentState == playerState.isJumping)
         {
             if (jumpTimeCounter > 0)
             {
                 rb.velocity = Vector3.up * jumpForce;
                 jumpTimeCounter -= Time.deltaTime;
             }
-            else { isJumping = false; }
+            else { currentState = playerState.canDoubleJump; }
 
         }
-        if (Input.GetKeyUp(KeyCode.Space) && !hasJumped)
+        if (Input.GetKeyUp(KeyCode.Space) && currentState == playerState.isJumping)
         {
-            isJumping = false;
-            canDoubleJump = true;
-            hasJumped = true;
+            currentState = playerState.canDoubleJump;
         }
     }
 
