@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 836841137}
   - component: {fileID: 836841138}
   - component: {fileID: 836841139}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Feet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -202,6 +202,7 @@ GameObject:
   - component: {fileID: 4674635715450483938}
   - component: {fileID: 4674635715450483942}
   - component: {fileID: 4674635715450483943}
+  - component: {fileID: 1419117700}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -317,11 +318,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  jumpForce: 5
+  jumpForce: 7
   startingLocation: {fileID: 0}
   feetpos: {fileID: 1072976544}
-  checkRadius: 0
-  whatIsGrounded:
+  checkRadius: 0.15
+  whatIsGround:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 320
   jumpTimer: 0.35
+  gameSystemController: {fileID: 0}
+--- !u!114 &1419117700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4674635715450483937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37719b6e37a6fd341bab724e2023b0de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallMultiplier: 2.5
+  lowJumpMultiplier: 2

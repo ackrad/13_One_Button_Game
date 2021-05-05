@@ -80,10 +80,10 @@ public class Player_Controller : MonoBehaviour
             transform.position += new Vector3(1f, 0f, 0f) * Time.deltaTime * speed; // constant right movement
         }
 
-        else if (currentState == playerState.isFalling)
+       /* else if (currentState == playerState.isFalling)
         {
             transform.position += new Vector3(0f, -1f, 0f) * Time.deltaTime * speed; // constant right movement
-        }
+        } */
         Jump();
 
         DropDownAction();
@@ -122,7 +122,7 @@ public class Player_Controller : MonoBehaviour
     {
         BetterJump();
 
-        if (currentState == playerState.canDoubleJump || currentState == playerState.isDoubleJumping)
+        if (currentState == playerState.canDoubleJump || currentState == playerState.isDoubleJumping || (!isGrounded && currentState == playerState.idle))
         {
             BetterDoubleJump();
         }
@@ -130,7 +130,6 @@ public class Player_Controller : MonoBehaviour
 
     private void BetterDoubleJump()
     {
-        Debug.Log("xd");
         if (Input.GetKeyDown(KeyCode.Space) &&  !isGrounded && powerUps["Double_Jump"])
         {
            
