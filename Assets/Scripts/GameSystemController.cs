@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameSystemController : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class GameSystemController : MonoBehaviour
     [SerializeField] Text coinText;
     [SerializeField] Text powerUpText;
     [SerializeField] Canvas hudCanvas;
+    [SerializeField] Canvas winCanvas;
+    
     
     private float pauseTimeCounter =0f;
 
@@ -91,6 +94,13 @@ public class GameSystemController : MonoBehaviour
                 }
             }
         }
+
+        // TODO REMOVE LATER
+        if (Input.GetKey(KeyCode.Alpha1))
+        {
+
+            IncreaseStarAmount();
+        }
     }
 
     public void UpdateText()
@@ -104,6 +114,13 @@ public class GameSystemController : MonoBehaviour
     {
         collectedCoins += 1;
         UpdateText();
+
+        if(collectedCoins == totalCoins)
+        {
+
+            FindObjectOfType<Player_Controller>().MoveLeft();
+            FindObjectOfType<Player_Controller>().StartDeath();
+        }
     }
 
     public void IncreaseCollectedPoweruo()
@@ -190,6 +207,18 @@ public class GameSystemController : MonoBehaviour
     }
 
 
+    public void WinGame()
+    {
+
+        BringInformativeCanvas(winCanvas);
+    }
+
+    public void MainMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(0);
+
+    }
 
 
 }

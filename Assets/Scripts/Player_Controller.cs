@@ -19,6 +19,7 @@ public class Player_Controller : MonoBehaviour
 
         // TODO Turn bools down here into game states.
     Rigidbody rb;
+    Animation_Controller anim_Controller;
     bool isGrounded = true;
    // bool canDoubleJump = true;
    // bool isJumping = false;
@@ -66,6 +67,7 @@ public class Player_Controller : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         gameSystem = FindObjectOfType<GameSystemController>();
+        anim_Controller = GetComponent<Animation_Controller>();
         
     }
 
@@ -132,7 +134,7 @@ public class Player_Controller : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) &&  !isGrounded && powerUps["Double_Jump"])
         {
-           
+            anim_Controller.TriggerJumpAnimation();
 
             rb.velocity = Vector3.up * jumpForce;
             currentState = playerState.isDoubleJumping;
@@ -164,9 +166,9 @@ public class Player_Controller : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded && powerUps["Jump"])
         {
 
+            anim_Controller.TriggerJumpAnimation();
 
 
-            // rb.AddForce(jump * jumpForce, ForceMode.Impulse);
 
             rb.velocity = Vector3.up * jumpForce;
             currentState = playerState.isJumping;
@@ -222,7 +224,11 @@ public class Player_Controller : MonoBehaviour
 
 
 
+    public void MoveLeft()
+    {
 
+        speed = -1 * speed;
+    }
 
 
 
