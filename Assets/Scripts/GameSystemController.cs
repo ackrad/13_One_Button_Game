@@ -14,8 +14,8 @@ public class GameSystemController : MonoBehaviour
     [SerializeField] Text powerUpText;
     [SerializeField] Canvas hudCanvas;
     [SerializeField] Canvas winCanvas;
-    
-    
+
+
     private float pauseTimeCounter =0f;
 
     int collectedCoins = 0;
@@ -219,6 +219,15 @@ public class GameSystemController : MonoBehaviour
         SceneManager.LoadScene(0);
 
     }
+
+
+    public void RestartPosition()
+    {
+        FindObjectOfType<Player_Controller>().StartDeath();
+        UnpauseGame();
+
+    }
+
 
 
 }
